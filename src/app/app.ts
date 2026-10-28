@@ -1,12 +1,28 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import {
+  COURSES,
+  EDUCATION,
+  FEATURED,
+  HERO_STEPS,
+  PROFILE,
+  PROJECT_GROUPS,
+  SKILL_GROUPS,
+  WORK,
+} from './portfolio.data';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('portfolio-rogerio');
+  protected readonly profile = PROFILE;
+  protected readonly work = WORK;
+  protected readonly featured = FEATURED;
+  protected readonly groups = PROJECT_GROUPS;
+  protected readonly skillGroups = SKILL_GROUPS;
+  protected readonly education = EDUCATION;
+  protected readonly courses = COURSES;
+  protected readonly steps = HERO_STEPS;
+  protected readonly year = new Date().getFullYear();
 }
