@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
+import { Activity } from './activity';
 import { Decrypt } from './decrypt.directive';
+import { GalleryComponent } from './gallery';
+import { highlight } from './highlight';
 import { MatrixRain } from './matrix-rain';
 import { Reveal } from './reveal.directive';
 import {
   COURSES,
   EDUCATION,
   FEATURED,
-  HERO_LINES,
+  HERO_CODE,
+  HERO_FILE,
+  HERO_REPL,
+  NINJAZAP_COMMITS,
   PROFILE,
   PROJECT_GROUPS,
   SKILL_GROUPS,
   WORK,
-  gherkinSummary,
 } from './portfolio.data';
 
 @Component({
   selector: 'app-root',
-  imports: [MatrixRain, Decrypt, Reveal],
+  imports: [MatrixRain, Decrypt, Reveal, GalleryComponent, Activity],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -28,7 +33,10 @@ export class App {
   protected readonly skillGroups = SKILL_GROUPS;
   protected readonly education = EDUCATION;
   protected readonly courses = COURSES;
-  protected readonly lines = HERO_LINES;
-  protected readonly summary = gherkinSummary(HERO_LINES);
+  protected readonly heroFile = HERO_FILE;
+  protected readonly codeLines = highlight(HERO_CODE);
+  protected readonly repl = HERO_REPL;
+  protected readonly commits = NINJAZAP_COMMITS;
+  protected readonly maxRepoCommits = Math.max(...WORK.repos.map((r) => r.commits));
   protected readonly year = new Date().getFullYear();
 }

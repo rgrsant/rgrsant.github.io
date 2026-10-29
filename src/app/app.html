@@ -23,17 +23,18 @@
     </ul>
   </div>
 
-  <figure class="runner" aria-label="Cenário de teste em Gherkin descrevendo o Rogério">
+  <figure class="runner" aria-label="Arquivo Python que descreve o Rogério">
     <div class="runner-bar">
-      <span class="file">features/rogerio.feature</span>
-      <span class="status">npx cucumber-js</span>
+      <span class="file">{{ heroFile }}</span>
+      <span class="status">Python 3</span>
     </div>
-    <pre class="gherkin"><code>@for (line of lines; track $index) {<span class="line" [class]="'line ' + line.kind" [style.--i]="$index">@switch (line.kind) {@case ('comment') {<span class="c">{{ line.text }}</span>}@case ('blank') {&#8203;}@case ('step') {<span class="check" aria-hidden="true">✓</span><span class="k">{{ $any(line).keyword }}</span> {{ $any(line).text }}}@default {<span class="k">{{ $any(line).keyword }}</span> {{ $any(line).text }}}}</span>}</code></pre>
-    <figcaption class="result" [style.--i]="lines.length">
-      <span class="pass">{{ summary.scenarios }} cenários ({{ summary.scenarios }} passaram)</span>
-      <span>{{ summary.steps }} passos ({{ summary.steps }} passaram)</span>
+    <pre class="code"><code>@for (line of codeLines; track $index; let n = $index) {<span class="line" [style.--i]="n"><span class="ln" aria-hidden="true">{{ n + 1 }}</span>@for (t of line; track $index) {<span [class]="t.kind">{{ t.text }}</span>}</span>}</code></pre>
+    <div class="repl" [style.--i]="codeLines.length">
+      @for (r of repl; track $index) {
+        <p><span class="pr" aria-hidden="true">{{ r.prompt }}</span> {{ r.text }}</p>
+      }
       <span class="cursor" aria-hidden="true"></span>
-    </figcaption>
+    </div>
   </figure>
 </header>
 
@@ -65,6 +66,26 @@
           </div>
         }
       </dl>
+
+      <div class="activity-block" appReveal>
+        <h4>Commits no NinjaZap, dia a dia</h4>
+        <app-activity [commits]="commits" from="2025-12-01" to="2026-10-31" />
+        <ul class="repos" aria-label="Commits por repositório">
+          @for (r of work.repos; track r.name) {
+            <li>
+              <span class="repo-name">{{ r.label }}</span>
+              <span class="repo-bar" aria-hidden="true"
+                ><span [style.width.%]="(r.commits / maxRepoCommits) * 100"></span
+              ></span>
+              <span class="repo-count">{{ r.commits }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+
+      @if (work.gallery; as g) {
+        <app-gallery class="job-gallery" [gallery]="g" label="Telas do NinjaZap feitas pelo Rogério" />
+      }
     </article>
 
     <ol class="timeline">
@@ -102,22 +123,27 @@
     </div>
 
     <article class="featured panel" appReveal>
-      <div class="featured-head">
-        <h3>{{ featured.name }}</h3>
-        <p class="badge">{{ featured.status }}</p>
+      <div class="featured-text">
+        <div class="featured-head">
+          <h3>{{ featured.name }}</h3>
+          <p class="badge">{{ featured.status }}</p>
+        </div>
+        <p class="meta">{{ featured.role }}</p>
+        <p class="featured-summary">{{ featured.summary }}</p>
+        <ul class="points">
+          @for (h of featured.highlights; track h) {
+            <li>{{ h }}</li>
+          }
+        </ul>
+        <ul class="tags" aria-label="Tecnologias do LifeMaxxing">
+          @for (t of featured.stack; track t) {
+            <li>{{ t }}</li>
+          }
+        </ul>
       </div>
-      <p class="meta">{{ featured.role }}</p>
-      <p class="featured-summary">{{ featured.summary }}</p>
-      <ul class="points">
-        @for (h of featured.highlights; track h) {
-          <li>{{ h }}</li>
-        }
-      </ul>
-      <ul class="tags" aria-label="Tecnologias do LifeMaxxing">
-        @for (t of featured.stack; track t) {
-          <li>{{ t }}</li>
-        }
-      </ul>
+      @if (featured.gallery; as g) {
+        <app-gallery [gallery]="g" label="Telas do LifeMaxxing" />
+      }
     </article>
 
     @for (group of groups; track group.title) {
@@ -149,6 +175,9 @@
                   >
                 }
               </p>
+              @if (p.gallery; as g) {
+                <app-gallery class="project-gallery" [gallery]="g" [label]="'Telas do ' + p.name" />
+              }
             </article>
           }
         </div>
@@ -234,5 +263,6 @@
   </ul>
   <p class="fineprint">
     Feito com Angular por {{ profile.name }}, {{ year }}. A chuva do fundo é calculada em WebAssembly.
+    As telas dos projetos foram capturadas rodando cada app com dados de exemplo.
   </p>
 </footer>

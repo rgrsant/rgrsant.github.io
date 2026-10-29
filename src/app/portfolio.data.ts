@@ -12,6 +12,21 @@ export interface Milestone {
   items: string[];
 }
 
+/** Uma imagem da galeria. `src` é relativo à pasta public/. */
+export interface Slide {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
+export interface Gallery {
+  /** 'phone' desenha uma moldura de celular; 'browser', uma janela de navegador. */
+  frame: 'phone' | 'browser';
+  /** Texto da barra de endereço (só na moldura de navegador). */
+  url?: string;
+  slides: Slide[];
+}
+
 export interface Project {
   name: string;
   role: string;
@@ -20,6 +35,7 @@ export interface Project {
   stack: string[];
   status?: string;
   link?: Link;
+  gallery?: Gallery;
 }
 
 export interface ProjectGroup {
@@ -110,6 +126,115 @@ export const WORK = {
     },
   ] as Milestone[],
   stack: ['Angular', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Cypress', 'Cucumber', 'Jenkins'],
+  // Commits próprios (sem merges) nas branches do Rogério, por repositório.
+  repos: [
+    { name: 'ninjazap-front', label: 'Front-end (Angular)', commits: 71 },
+    { name: 'ninjazap-back', label: 'Back-end (Node.js)', commits: 59 },
+    { name: 'ninjazap-test', label: 'Testes E2E (Cypress)', commits: 34 },
+    { name: 'ninjazap-commons', label: 'Modelos compartilhados', commits: 18 },
+  ],
+  // Galeria opcional: coloque prints em public/projetos/ e liste aqui.
+  gallery: undefined as Gallery | undefined,
+};
+
+/** Commits por dia no NinjaZap, tirados do histórico do Git (sem merges). */
+export const NINJAZAP_COMMITS: Record<string, number> = {
+  '2025-12-16': 1,
+  '2025-12-18': 1,
+  '2025-12-19': 1,
+  '2025-12-23': 1,
+  '2025-12-26': 1,
+  '2026-01-04': 3,
+  '2026-01-08': 1,
+  '2026-01-14': 2,
+  '2026-01-16': 1,
+  '2026-01-23': 1,
+  '2026-01-26': 1,
+  '2026-01-27': 6,
+  '2026-01-28': 2,
+  '2026-01-29': 2,
+  '2026-02-04': 2,
+  '2026-02-09': 1,
+  '2026-02-11': 2,
+  '2026-02-20': 1,
+  '2026-02-23': 1,
+  '2026-02-24': 3,
+  '2026-03-04': 1,
+  '2026-03-05': 1,
+  '2026-03-12': 1,
+  '2026-03-20': 1,
+  '2026-03-21': 1,
+  '2026-04-07': 5,
+  '2026-04-08': 2,
+  '2026-04-09': 1,
+  '2026-04-10': 1,
+  '2026-04-14': 1,
+  '2026-04-17': 3,
+  '2026-04-20': 1,
+  '2026-04-22': 2,
+  '2026-04-24': 2,
+  '2026-04-28': 1,
+  '2026-04-30': 1,
+  '2026-05-04': 2,
+  '2026-05-05': 1,
+  '2026-05-08': 1,
+  '2026-05-12': 2,
+  '2026-05-14': 2,
+  '2026-05-15': 4,
+  '2026-05-19': 2,
+  '2026-05-25': 4,
+  '2026-05-27': 1,
+  '2026-05-28': 2,
+  '2026-05-29': 2,
+  '2026-06-01': 2,
+  '2026-06-02': 2,
+  '2026-06-03': 3,
+  '2026-06-08': 1,
+  '2026-06-09': 4,
+  '2026-06-10': 3,
+  '2026-06-11': 1,
+  '2026-06-12': 1,
+  '2026-06-16': 1,
+  '2026-06-17': 4,
+  '2026-06-30': 2,
+  '2026-07-01': 2,
+  '2026-07-03': 2,
+  '2026-07-07': 2,
+  '2026-07-10': 1,
+  '2026-07-15': 2,
+  '2026-07-16': 2,
+  '2026-07-20': 3,
+  '2026-07-23': 1,
+  '2026-07-27': 2,
+  '2026-07-30': 1,
+  '2026-08-01': 3,
+  '2026-08-19': 4,
+  '2026-08-20': 1,
+  '2026-08-21': 4,
+  '2026-08-26': 1,
+  '2026-08-28': 2,
+  '2026-08-31': 1,
+  '2026-09-01': 1,
+  '2026-09-02': 1,
+  '2026-09-03': 2,
+  '2026-09-04': 2,
+  '2026-09-09': 6,
+  '2026-09-10': 2,
+  '2026-09-11': 3,
+  '2026-09-15': 3,
+  '2026-09-22': 2,
+  '2026-09-23': 2,
+  '2026-09-26': 2,
+  '2026-09-28': 2,
+  '2026-09-30': 1,
+  '2026-10-05': 2,
+  '2026-10-06': 1,
+  '2026-10-07': 1,
+  '2026-10-21': 3,
+  '2026-10-22': 1,
+  '2026-10-23': 1,
+  '2026-10-26': 2,
+  '2026-10-27': 2,
 };
 
 export const FEATURED: Project = {
@@ -125,6 +250,41 @@ export const FEATURED: Project = {
     'Mais de 100 testes de segurança rodando contra o banco, inclusive em Postgres WebAssembly para funcionar no Windows.',
   ],
   stack: ['React Native', 'Expo', 'TypeScript', 'Supabase', 'PostgreSQL'],
+  gallery: {
+    frame: 'phone',
+    slides: [
+      {
+        src: 'projetos/lifemaxxing-missoes.webp',
+        alt: 'Tela Missões do LifeMaxxing com pontos do dia e da semana e as quatro categorias',
+        caption: 'Missões: pontos do dia e da semana, com o progresso de cada categoria contra o teto diário.',
+      },
+      {
+        src: 'projetos/lifemaxxing-registrar.webp',
+        alt: 'Categoria Fitness aberta com atalhos de 30 minutos a 2 horas e o botão Registrar missão',
+        caption: 'Registrar uma missão: o app mostra quanto ela vale antes de enviar, mas quem calcula é o servidor.',
+      },
+      {
+        src: 'projetos/lifemaxxing-historico.webp',
+        alt: 'Histórico recente de missões com os pontos ganhos em cada uma',
+        caption: 'Histórico: cada registro com a quantidade e os pontos que rendeu.',
+      },
+      {
+        src: 'projetos/lifemaxxing-amigos.webp',
+        alt: 'Ranking de amigos com filtros por semana, mês, ano e geral',
+        caption: 'Amigos: ranking por semana, mês, ano ou geral, e grupos fechados por código de convite.',
+      },
+      {
+        src: 'projetos/lifemaxxing-perfil.webp',
+        alt: 'Perfil com avatar, @ do usuário e pontuação por período',
+        caption: 'Perfil: @ personalizado, avatar de um catálogo fechado e pontuação por período.',
+      },
+      {
+        src: 'projetos/lifemaxxing-escuro.webp',
+        alt: 'Tela Missões no tema escuro',
+        caption: 'Tema escuro opcional, salvo no aparelho.',
+      },
+    ],
+  },
 };
 
 export const PROJECT_GROUPS: ProjectGroup[] = [
@@ -144,6 +304,32 @@ export const PROJECT_GROUPS: ProjectGroup[] = [
         ],
         stack: ['React', 'TypeScript', 'Tauri', 'Cypress'],
         link: { label: 'Repositório', href: 'https://github.com/cemendes/QuietFlow' },
+        gallery: {
+          frame: 'browser',
+          url: 'quietflow · anotações',
+          slides: [
+            {
+              src: 'projetos/quietflow-anotacoes.webp',
+              alt: 'Tela Todas as anotações do QuietFlow com a barra lateral separando Anotações e Tarefas',
+              caption: 'Anotações e Tarefas viraram seções independentes, com Anotações em primeiro na barra lateral.',
+            },
+            {
+              src: 'projetos/quietflow-leitura.webp',
+              alt: 'Uma anotação aberta em modo de leitura com o botão Editar',
+              caption: 'As notas abrem em modo de leitura; para mudar, você entra no modo de edição.',
+            },
+            {
+              src: 'projetos/quietflow-edicao.webp',
+              alt: 'Anotação em modo de edição com barra de formatação e botão Salvar anotação',
+              caption: 'Modo de edição com título renomeável e botão de salvar.',
+            },
+            {
+              src: 'projetos/quietflow-idioma.webp',
+              alt: 'Preferências do QuietFlow com Português (Brasil) selecionado como idioma',
+              caption: 'A interface inteira traduzida para português.',
+            },
+          ],
+        },
       },
       {
         name: 'Brota',
@@ -155,6 +341,22 @@ export const PROJECT_GROUPS: ProjectGroup[] = [
           'Implementei a criação de eventos genéricos.',
         ],
         stack: ['Next.js', 'TypeScript', 'SQLite', 'Docker'],
+        gallery: {
+          frame: 'browser',
+          url: 'brota · painel do anfitrião',
+          slides: [
+            {
+              src: 'projetos/brota-eventos.webp',
+              alt: 'Painel Meus Eventos do Brota listando dois eventos com data, local, confirmados e convites',
+              caption: 'Lista de eventos no painel do anfitrião, com confirmados e convites de cada festa.',
+            },
+            {
+              src: 'projetos/brota-novo-evento.webp',
+              alt: 'Formulário Criar Novo Evento com título, descrição, link gerado e datas preenchidos',
+              caption: 'Criação de eventos: o link do convite é gerado a partir do título.',
+            },
+          ],
+        },
       },
     ],
   },
@@ -280,47 +482,30 @@ export const COURSES: Course[] = [
   { name: 'IT Essentials', issuer: 'Cisco Networking Academy', date: 'Dez 2018' },
 ];
 
-// Cenário Gherkin do topo da página. Cada linha aparece em sequência,
-// como um teste do Cucumber rodando.
-export type GherkinLine =
-  | { kind: 'comment' | 'blank'; text?: string }
-  | { kind: 'feature' | 'background' | 'scenario'; keyword: string; text: string }
-  | { kind: 'step'; keyword: string; text: string };
+// Arquivo Python mostrado no topo da página. O realce de cores é feito por
+// src/app/highlight.ts, então basta editar o texto abaixo.
+export const HERO_FILE = 'rogerio.py';
 
-export const HERO_LINES: GherkinLine[] = [
-  { kind: 'comment', text: '# language: pt' },
-  { kind: 'feature', keyword: 'Funcionalidade:', text: 'Rogério Santana' },
-  { kind: 'blank' },
-  { kind: 'background', keyword: 'Contexto:', text: '' },
-  { kind: 'step', keyword: 'Dado', text: 'que eu moro no Rio de Janeiro' },
-  { kind: 'step', keyword: 'E', text: 'estudo Engenharia de Computação e Informação na UFRJ' },
-  { kind: 'step', keyword: 'E', text: 'sou técnico em Informática para Internet pela FAETEC' },
-  { kind: 'blank' },
-  { kind: 'scenario', keyword: 'Cenário:', text: 'Durante o dia' },
-  { kind: 'step', keyword: 'Quando', text: 'eu chego na Vivier' },
-  { kind: 'step', keyword: 'Então', text: 'construo telas em Angular para o NinjaZap' },
-  { kind: 'step', keyword: 'E', text: 'escrevo testes E2E em Cypress e Cucumber' },
-  { kind: 'blank' },
-  { kind: 'scenario', keyword: 'Cenário:', text: 'Depois do expediente' },
-  { kind: 'step', keyword: 'Quando', text: 'o estágio acaba' },
-  { kind: 'step', keyword: 'Então', text: 'eu desenvolvo o LifeMaxxing em React Native' },
-  { kind: 'step', keyword: 'E', text: 'estudo cibersegurança e IA' },
-  { kind: 'step', keyword: 'Mas', text: 'sempre sobra tempo pra uma partida de League of Legends' },
+export const HERO_CODE = `from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Rogerio:
+    nome: str = "Rogério Santana"
+    cidade: str = "Rio de Janeiro, RJ"
+    graduacao: str = "Eng. de Computação e Informação, UFRJ"
+    tecnico: str = "Informática para Internet, FAETEC"
+    cargo: str = "Dev & QA na Vivier (NinjaZap)"
+    linguagens: tuple = ("TypeScript", "Python", "C", "SQL")
+    frameworks: tuple = ("Angular", "React Native", "Node.js")
+    testes: tuple = ("Cypress", "Cucumber", "Jenkins")
+    estudando: tuple = ("Cibersegurança", "IA")
+
+    def aberto_a_novos_desafios(self) -> bool:
+        return True`;
+
+/** Linhas do "terminal" que aparecem depois do código. */
+export const HERO_REPL = [
+  { prompt: '>>>', text: 'Rogerio().aberto_a_novos_desafios()' },
+  { prompt: '', text: 'True' },
 ];
-
-/** Resumo no formato do Cucumber: os passos do Contexto rodam em cada cenário. */
-export function gherkinSummary(lines: GherkinLine[]): { scenarios: number; steps: number } {
-  let scenarios = 0;
-  let background = 0;
-  let own = 0;
-  let inBackground = false;
-  for (const l of lines) {
-    if (l.kind === 'background') inBackground = true;
-    if (l.kind === 'scenario') {
-      inBackground = false;
-      scenarios++;
-    }
-    if (l.kind === 'step') inBackground ? background++ : own++;
-  }
-  return { scenarios, steps: background * scenarios + own };
-}

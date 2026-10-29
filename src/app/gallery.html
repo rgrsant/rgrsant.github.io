@@ -1,0 +1,57 @@
+<div
+  class="viewport"
+  role="region"
+  aria-roledescription="carrossel"
+  [attr.aria-label]="label()"
+  tabindex="0"
+  (keydown)="onKey($event)"
+>
+  @if (gallery().frame === 'browser') {
+    <div class="chrome" aria-hidden="true">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="url">{{ gallery().url }}</span>
+    </div>
+  } @else {
+    <span class="notch" aria-hidden="true"></span>
+  }
+
+  <div class="stage" (pointerdown)="onPointerDown($event)" (pointerup)="onPointerUp($event)">
+    @for (slide of gallery().slides; track slide.src; let i = $index) {
+      <img
+        [src]="slide.src"
+        [alt]="slide.alt"
+        [class.active]="i === index()"
+        [attr.aria-hidden]="i !== index()"
+        [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+        decoding="async"
+        draggable="false"
+      />
+    }
+    <button type="button" class="zoom" (click)="open()" aria-label="Ampliar imagem">[ + ]</button>
+  </div>
+</div>
+
+<div class="controls">
+  <button type="button" (click)="go(-1)" aria-label="Imagem anterior">&lt;</button>
+  <span class="counter" aria-hidden="true">{{ pad(index() + 1) }}/{{ pad(total()) }}</span>
+  <button type="button" (click)="go(1)" aria-label="Próxima imagem">&gt;</button>
+  <span class="bars">
+    @for (slide of gallery().slides; track slide.src; let i = $index) {
+      <button
+        type="button"
+        [class.on]="i === index()"
+        (click)="select(i)"
+        [attr.aria-label]="'Ver imagem ' + (i + 1) + ' de ' + total()"
+        [attr.aria-current]="i === index()"
+      ></button>
+    }
+  </span>
+</div>
+<p class="caption" aria-live="polite">{{ current().caption }}</p>
+
+<dialog #dialog (close)="zoomed.set(false)" (click)="close()" aria-label="Imagem ampliada">
+  @if (zoomed()) {
+    <img [src]="current().src" [alt]="current().alt" />
+    <p>{{ current().caption }} <span class="hint">Clique ou aperte Esc para fechar.</span></p>
+  }
+</dialog>

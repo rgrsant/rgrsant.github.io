@@ -27,6 +27,17 @@ então para adicionar um projeto basta incluir um objeto na lista certa.
 | `src/app/decrypt.directive.ts` | Efeito de texto "decifrando" |
 | `src/app/reveal.directive.ts` | Fade das seções ao rolar |
 
+## Galerias de imagens
+
+As galerias (LifeMaxxing, QuietFlow, Brota) são configuradas no campo `gallery`
+de cada projeto em `portfolio.data.ts`. As imagens ficam em `public/projetos/`,
+em WebP com até 1400 px de largura. Use `frame: 'phone'` para telas de celular e
+`frame: 'browser'` para telas de computador.
+
+Para mostrar prints do NinjaZap, salve as imagens em `public/projetos/` e
+preencha `WORK.gallery` no mesmo formato. Antes de publicar, confirme com a
+Vivier e esconda dados de clientes.
+
 ## A chuva em WebAssembly
 
 O estado de cada coluna da chuva (posição, velocidade e caractere sorteado) é
