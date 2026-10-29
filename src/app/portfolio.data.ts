@@ -246,6 +246,7 @@ export const FEATURED: Project = {
   highlights: [
     'Regra única de pontuação: uma hora de esforço vale 200 pontos em qualquer categoria, então o ranking mede dedicação e não a escolha da categoria.',
     'Os pontos são calculados no Postgres e nunca aceitos do app. Cada registro tem dono garantido pelo servidor, com tetos diários por categoria.',
+    'Timer de estudo e de trabalho que vale o dobro, com início e fim carimbados pelo relógio do banco para não dar para burlar.',
     'Row Level Security em todas as tabelas: ninguém lê o histórico de ninguém, e o ranking devolve só somas.',
     'Mais de 100 testes de segurança rodando contra o banco, inclusive em Postgres WebAssembly para funcionar no Windows.',
   ],
@@ -255,18 +256,23 @@ export const FEATURED: Project = {
     slides: [
       {
         src: 'projetos/lifemaxxing-missoes.webp',
-        alt: 'Tela Missões do LifeMaxxing com pontos do dia e da semana e as quatro categorias',
-        caption: 'Missões: pontos do dia e da semana, com o progresso de cada categoria contra o teto diário.',
+        alt: 'Tela Missões do LifeMaxxing com os pontos de hoje e da semana e as categorias numeradas',
+        caption: 'Missões: pontos de hoje e da semana, e o progresso de cada categoria contra o teto diário.',
       },
       {
         src: 'projetos/lifemaxxing-registrar.webp',
-        alt: 'Categoria Fitness aberta com atalhos de 30 minutos a 2 horas e o botão Registrar missão',
-        caption: 'Registrar uma missão: o app mostra quanto ela vale antes de enviar, mas quem calcula é o servidor.',
+        alt: 'Categoria Estudos aberta com o timer e a lista de disciplinas, cada uma com o botão Ligar',
+        caption: 'Estudos por disciplina: dá para ligar o timer em Cálculo, Física ou outra matéria, ou registrar manualmente.',
+      },
+      {
+        src: 'projetos/lifemaxxing-timer.webp',
+        alt: 'Timer ligado estudando Circuitos Lógicos, com o tempo corrido e os pontos acumulados até agora',
+        caption: 'Timer ligado: o tempo cronometrado vale o dobro de pontos, com início e fim carimbados pelo servidor.',
       },
       {
         src: 'projetos/lifemaxxing-historico.webp',
-        alt: 'Histórico recente de missões com os pontos ganhos em cada uma',
-        caption: 'Histórico: cada registro com a quantidade e os pontos que rendeu.',
+        alt: 'Histórico recente com cada missão, a disciplina, o horário e os pontos ganhos',
+        caption: 'Histórico: cada registro com a disciplina, se foi com timer e quantos pontos rendeu.',
       },
       {
         src: 'projetos/lifemaxxing-amigos.webp',
@@ -275,8 +281,13 @@ export const FEATURED: Project = {
       },
       {
         src: 'projetos/lifemaxxing-perfil.webp',
-        alt: 'Perfil com avatar, @ do usuário e pontuação por período',
-        caption: 'Perfil: @ personalizado, avatar de um catálogo fechado e pontuação por período.',
+        alt: 'Perfil com avatar, @ do usuário, pontuação por período e tempo estudado',
+        caption: 'Perfil: @ personalizado, pontuação por período e o tempo total de estudo.',
+      },
+      {
+        src: 'projetos/lifemaxxing-disciplinas.webp',
+        alt: 'Tempo estudado por disciplina nos últimos 7 dias, com barras de porcentagem',
+        caption: 'Quanto tempo foi para cada disciplina, em 24 horas, 7 dias, 30 dias ou desde o começo.',
       },
       {
         src: 'projetos/lifemaxxing-escuro.webp',
@@ -495,7 +506,7 @@ class Rogerio:
     cidade: str = "Rio de Janeiro, RJ"
     graduacao: str = "Eng. de Computação e Informação, UFRJ"
     tecnico: str = "Informática para Internet, FAETEC"
-    cargo: str = "Dev & QA na Vivier (NinjaZap)"
+    cargo: str = "Estagiário em Desenvolvimento de Software e IA"
     linguagens: tuple = ("TypeScript", "Python", "C", "SQL")
     frameworks: tuple = ("Angular", "React Native", "Node.js")
     testes: tuple = ("Cypress", "Cucumber", "Jenkins")
