@@ -268,7 +268,7 @@ export const COURSES: Course[] = [
   { name: 'Fundamentos de Cibersegurança', issuer: 'Google', date: 'Mar 2025' },
   { name: 'Google AI Essentials', issuer: 'Google', date: 'Mar 2025' },
   {
-    name: 'AWS Certified Cloud Practitioner (expirada)',
+    name: 'AWS Certified Cloud Practitioner',
     issuer: 'Amazon Web Services',
     date: '2023',
     link: 'https://www.credly.com/badges/da636b83-bfd5-4d93-a37d-f7e173611dba',
@@ -280,11 +280,47 @@ export const COURSES: Course[] = [
   { name: 'IT Essentials', issuer: 'Cisco Networking Academy', date: 'Dez 2018' },
 ];
 
-// Passos do cenário Gherkin que aparece no topo da página.
-export const HERO_STEPS: { keyword: string; text: string }[] = [
-  { keyword: 'Dado', text: 'que ele estuda Engenharia de Computação na UFRJ' },
-  { keyword: 'E', text: 'é técnico em Informática para Internet pela FAETEC' },
-  { keyword: 'Quando', text: 'ele entra num time de produto' },
-  { keyword: 'Então', text: 'ele entrega telas em Angular e TypeScript' },
-  { keyword: 'E', text: 'cobre cada fluxo com testes em Cypress' },
+// Cenário Gherkin do topo da página. Cada linha aparece em sequência,
+// como um teste do Cucumber rodando.
+export type GherkinLine =
+  | { kind: 'comment' | 'blank'; text?: string }
+  | { kind: 'feature' | 'background' | 'scenario'; keyword: string; text: string }
+  | { kind: 'step'; keyword: string; text: string };
+
+export const HERO_LINES: GherkinLine[] = [
+  { kind: 'comment', text: '# language: pt' },
+  { kind: 'feature', keyword: 'Funcionalidade:', text: 'Rogério Santana' },
+  { kind: 'blank' },
+  { kind: 'background', keyword: 'Contexto:', text: '' },
+  { kind: 'step', keyword: 'Dado', text: 'que eu moro no Rio de Janeiro' },
+  { kind: 'step', keyword: 'E', text: 'estudo Engenharia de Computação e Informação na UFRJ' },
+  { kind: 'step', keyword: 'E', text: 'sou técnico em Informática para Internet pela FAETEC' },
+  { kind: 'blank' },
+  { kind: 'scenario', keyword: 'Cenário:', text: 'Durante o dia' },
+  { kind: 'step', keyword: 'Quando', text: 'eu chego na Vivier' },
+  { kind: 'step', keyword: 'Então', text: 'construo telas em Angular para o NinjaZap' },
+  { kind: 'step', keyword: 'E', text: 'escrevo testes E2E em Cypress e Cucumber' },
+  { kind: 'blank' },
+  { kind: 'scenario', keyword: 'Cenário:', text: 'Depois do expediente' },
+  { kind: 'step', keyword: 'Quando', text: 'o estágio acaba' },
+  { kind: 'step', keyword: 'Então', text: 'eu desenvolvo o LifeMaxxing em React Native' },
+  { kind: 'step', keyword: 'E', text: 'estudo cibersegurança e IA' },
+  { kind: 'step', keyword: 'Mas', text: 'sempre sobra tempo pra uma partida de League of Legends' },
 ];
+
+/** Resumo no formato do Cucumber: os passos do Contexto rodam em cada cenário. */
+export function gherkinSummary(lines: GherkinLine[]): { scenarios: number; steps: number } {
+  let scenarios = 0;
+  let background = 0;
+  let own = 0;
+  let inBackground = false;
+  for (const l of lines) {
+    if (l.kind === 'background') inBackground = true;
+    if (l.kind === 'scenario') {
+      inBackground = false;
+      scenarios++;
+    }
+    if (l.kind === 'step') inBackground ? background++ : own++;
+  }
+  return { scenarios, steps: background * scenarios + own };
+}

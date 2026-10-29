@@ -1,8 +1,12 @@
+<app-matrix-rain />
+<div class="crt" aria-hidden="true"></div>
+
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
 <header class="hero wrap">
   <div class="hero-text">
-    <h1>{{ profile.name }}</h1>
+    <p class="prompt boot" aria-hidden="true">rogerio&#64;rio:~$ whoami</p>
+    <h1 appDecrypt="load">{{ profile.name }}</h1>
     <p class="lede">{{ profile.role }}</p>
     <p class="about">{{ profile.about }}</p>
     <ul class="contact" aria-label="Contato">
@@ -12,7 +16,7 @@
             [href]="link.href"
             [attr.target]="link.href.startsWith('http') ? '_blank' : null"
             [attr.rel]="link.href.startsWith('http') ? 'noopener noreferrer' : null"
-            >{{ link.label }}</a
+            >[ {{ link.label }} ]</a
           >
         </li>
       }
@@ -21,19 +25,14 @@
 
   <figure class="runner" aria-label="Cenário de teste em Gherkin descrevendo o Rogério">
     <div class="runner-bar">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="dot" aria-hidden="true"></span>
-      <span class="dot" aria-hidden="true"></span>
-      <span class="file">rogerio.feature</span>
+      <span class="file">features/rogerio.feature</span>
+      <span class="status">npx cucumber-js</span>
     </div>
-    <pre class="gherkin"><code><span class="c"># language: pt</span>
-<span class="k">Funcionalidade:</span> Conhecer o Rogério
-
-  <span class="k">Cenário:</span> Recrutador abre o portfólio
-@for (step of steps; track $index) {<span class="step" [style.--i]="$index"><span class="check" aria-hidden="true">✓</span><span class="k">{{ step.keyword }}</span> {{ step.text }}</span>}</code></pre>
-    <figcaption class="result">
-      <span class="pass">1 cenário (1 passou)</span>
-      <span>{{ steps.length }} passos ({{ steps.length }} passaram)</span>
+    <pre class="gherkin"><code>@for (line of lines; track $index) {<span class="line" [class]="'line ' + line.kind" [style.--i]="$index">@switch (line.kind) {@case ('comment') {<span class="c">{{ line.text }}</span>}@case ('blank') {&#8203;}@case ('step') {<span class="check" aria-hidden="true">✓</span><span class="k">{{ $any(line).keyword }}</span> {{ $any(line).text }}}@default {<span class="k">{{ $any(line).keyword }}</span> {{ $any(line).text }}}}</span>}</code></pre>
+    <figcaption class="result" [style.--i]="lines.length">
+      <span class="pass">{{ summary.scenarios }} cenários ({{ summary.scenarios }} passaram)</span>
+      <span>{{ summary.steps }} passos ({{ summary.steps }} passaram)</span>
+      <span class="cursor" aria-hidden="true"></span>
     </figcaption>
   </figure>
 </header>
@@ -41,10 +40,11 @@
 <main id="conteudo">
   <section class="section wrap" aria-labelledby="exp">
     <div class="section-head">
-      <h2 id="exp">Experiência</h2>
+      <p class="prompt" aria-hidden="true">rogerio&#64;rio:~$ cat experiencia.log</p>
+      <h2 id="exp" appDecrypt="view">Experiência</h2>
     </div>
 
-    <article class="job">
+    <article class="job panel" appReveal>
       <div class="job-head">
         <div>
           <h3>{{ work.title }}</h3>
@@ -65,46 +65,48 @@
           </div>
         }
       </dl>
-
-      <ol class="timeline">
-        @for (m of work.milestones; track m.title) {
-          <li>
-            <p class="when">{{ m.period }}</p>
-            <div>
-              <h4>{{ m.title }}</h4>
-              <ul>
-                @for (item of m.items; track item) {
-                  <li>{{ item }}</li>
-                }
-              </ul>
-            </div>
-          </li>
-        }
-      </ol>
-
-      <ul class="tags" aria-label="Tecnologias usadas no estágio">
-        @for (t of work.stack; track t) {
-          <li>{{ t }}</li>
-        }
-      </ul>
-
-      <p class="earlier">
-        Antes disso: estágio de TI na Nova Prestech (jan a abr de 2020), onde fiz o site da empresa e
-        aprendi manutenção de computadores e impressoras.
-      </p>
     </article>
+
+    <ol class="timeline">
+      @for (m of work.milestones; track m.title) {
+        <li appReveal>
+          <p class="when">{{ m.period }}</p>
+          <div>
+            <h4>{{ m.title }}</h4>
+            <ul>
+              @for (item of m.items; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </div>
+        </li>
+      }
+    </ol>
+
+    <ul class="tags" aria-label="Tecnologias usadas no estágio" appReveal>
+      @for (t of work.stack; track t) {
+        <li>{{ t }}</li>
+      }
+    </ul>
+
+    <p class="earlier" appReveal>
+      Antes disso: estágio de TI na Nova Prestech (jan a abr de 2020), onde fiz o site da empresa e
+      aprendi manutenção de computadores e impressoras.
+    </p>
   </section>
 
   <section class="section wrap" aria-labelledby="proj">
     <div class="section-head">
-      <h2 id="proj">Projetos</h2>
+      <p class="prompt" aria-hidden="true">rogerio&#64;rio:~$ ls projetos/</p>
+      <h2 id="proj" appDecrypt="view">Projetos</h2>
     </div>
 
-    <article class="featured">
+    <article class="featured panel" appReveal>
       <div class="featured-head">
         <h3>{{ featured.name }}</h3>
-        <p class="meta">{{ featured.role }}, {{ featured.status?.toLowerCase() }}</p>
+        <p class="badge">{{ featured.status }}</p>
       </div>
+      <p class="meta">{{ featured.role }}</p>
       <p class="featured-summary">{{ featured.summary }}</p>
       <ul class="points">
         @for (h of featured.highlights; track h) {
@@ -120,13 +122,13 @@
 
     @for (group of groups; track group.title) {
       <div class="group">
-        <div class="group-head">
+        <div class="group-head" appReveal>
           <h3>{{ group.title }}</h3>
           <p>{{ group.intro }}</p>
         </div>
         <div class="project-list">
           @for (p of group.projects; track p.name) {
-            <article class="project">
+            <article class="project" appReveal>
               <div class="project-head">
                 <h4>{{ p.name }}</h4>
                 <p class="meta">{{ p.role }}</p>
@@ -140,7 +142,7 @@
                 </ul>
               }
               <p class="project-foot">
-                <span class="stack">{{ p.stack.join(', ') }}</span>
+                <span class="stack">{{ p.stack.join(' / ') }}</span>
                 @if (p.link) {
                   <a [href]="p.link.href" target="_blank" rel="noopener noreferrer"
                     >{{ p.link.label }}<span class="sr-only"> do {{ p.name }}</span></a
@@ -156,12 +158,13 @@
 
   <section class="section wrap" aria-labelledby="stack">
     <div class="section-head">
-      <h2 id="stack">Tecnologias</h2>
-      <p>Cada item com o lugar onde de fato usei.</p>
+      <p class="prompt" aria-hidden="true">rogerio&#64;rio:~$ cat stack.txt</p>
+      <h2 id="stack" appDecrypt="view">Tecnologias</h2>
+      <p class="section-note">Cada item com o lugar onde de fato usei.</p>
     </div>
     <div class="skills">
       @for (g of skillGroups; track g.title) {
-        <div class="skill-group">
+        <div class="skill-group" appReveal>
           <h3>{{ g.title }}</h3>
           <dl>
             @for (s of g.skills; track s.name) {
@@ -178,24 +181,31 @@
 
   <section class="section wrap" aria-labelledby="edu">
     <div class="section-head">
-      <h2 id="edu">Formação</h2>
+      <p class="prompt" aria-hidden="true">rogerio&#64;rio:~$ cat formacao.md</p>
+      <h2 id="edu" appDecrypt="view">Formação</h2>
     </div>
     <div class="edu">
       @for (e of education; track e.school) {
-        <article>
+        <article class="panel" appReveal>
           <p class="period">{{ e.period }}</p>
           <h3>{{ e.course }}</h3>
           <p class="meta">{{ e.school }}</p>
-          <p>{{ e.detail }}</p>
+          <p class="edu-detail">{{ e.detail }}</p>
         </article>
       }
     </div>
 
-    <h3 class="courses-title">Cursos e certificados</h3>
-    <ul class="courses">
+    <h3 class="courses-title" appReveal>Cursos e certificados</h3>
+    <ul class="courses" appReveal>
       @for (c of courses; track c.name) {
         <li>
-          <span class="course-name">{{ c.name }}</span>
+          <span class="course-name">
+            @if (c.link) {
+              <a [href]="c.link" target="_blank" rel="noopener noreferrer">{{ c.name }}</a>
+            } @else {
+              {{ c.name }}
+            }
+          </span>
           <span class="course-issuer">{{ c.issuer }}</span>
           <span class="course-date">{{ c.date }}</span>
         </li>
@@ -204,9 +214,10 @@
   </section>
 </main>
 
-<footer class="footer wrap">
+<footer class="footer wrap" appReveal>
   <div>
-    <h2>Vamos conversar</h2>
+    <p class="prompt" aria-hidden="true">rogerio&#64;rio:~$ ./contato.sh</p>
+    <h2>Vamos conversar<span class="cursor" aria-hidden="true"></span></h2>
     <p>{{ profile.location }}. {{ profile.languages }}.</p>
   </div>
   <ul class="contact" aria-label="Contato">
@@ -216,10 +227,12 @@
           [href]="link.href"
           [attr.target]="link.href.startsWith('http') ? '_blank' : null"
           [attr.rel]="link.href.startsWith('http') ? 'noopener noreferrer' : null"
-          >{{ link.label }}</a
+          >[ {{ link.label }} ]</a
         >
       </li>
     }
   </ul>
-  <p class="fineprint">Feito com Angular por {{ profile.name }}, {{ year }}.</p>
+  <p class="fineprint">
+    Feito com Angular por {{ profile.name }}, {{ year }}. A chuva do fundo é calculada em WebAssembly.
+  </p>
 </footer>
